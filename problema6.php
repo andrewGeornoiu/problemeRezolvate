@@ -2,13 +2,13 @@
 
 $n = 25;
 $sum = 0;
-$aux = 0;
+$digit = 0;
 $count = 0;
 
 
 for ($i=0; $i<strlen($n); $i++){
-    $aux = $n%10;
-    $sum = $sum + $aux;
+    $digit = $n%10;
+    $sum = $sum + $digit;
     $n = $n / 10;
 }
 
