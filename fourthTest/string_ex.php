@@ -88,7 +88,14 @@ sănătatea noastră. Alternativele gătitului sunt reprezentate fie de mâncare
 ieșirile la RESTAURANT.';
 
 
+$text_lower = ucfirst(strtolower($text));
 
+preg_match_all("/\.\s*\w/", $text_lower, $matches);
+
+foreach($matches[0] as $match){
+    $text_lower = str_replace($match, strtoupper($match), $text_lower);
+}
+echo $text_lower;
 
 
 
