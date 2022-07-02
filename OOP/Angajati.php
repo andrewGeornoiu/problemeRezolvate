@@ -5,11 +5,13 @@ abstract class Angajat
     protected $nume;
     protected $email;
     protected $telefon;
+    protected $salariu;
 
-    public function __construct($val_nume, $val_email, $val_telefon) {
+    public function __construct($val_nume, $val_email, $val_telefon, $val_salariu) {
         $this->nume = $val_nume;
         $this->email = $val_email;
         $this->telefon = $val_telefon;
+        $this->salariu = $val_salariu;
     }
 
     //getter & setter nume
@@ -24,6 +26,10 @@ abstract class Angajat
     abstract public function get_telefon();
     abstract public function set_telefon($val_telefon);
 
+    //getter & setter salariu
+    abstract public function get_salariu();
+    abstract public function set_salariu($val_salariu);
+
 }
 
 abstract class Superior extends Angajat
@@ -32,10 +38,11 @@ abstract class Superior extends Angajat
     protected $decisive_power = false;
     protected $exe_power = false;
 
-    function __construct($val_nume, $val_email, $val_telefon, $val_decisive_power, $val_exe_power){
-        parent::__construct($val_nume, $val_email, $val_telefon);
+    function __construct($val_nume, $val_email, $val_telefon, $val_decisive_power, $val_exe_power, $val_angajati, $val_salariu){
+        parent::__construct($val_nume, $val_email, $val_telefon, $val_salariu);
         $this->decisive_power = $val_decisive_power;
         $this->exe_power = $val_exe_power;
+        $this->angajati = $val_angajati;
     }
 
     //getter & setter decisive power
@@ -46,13 +53,21 @@ abstract class Superior extends Angajat
     abstract public function get_exe_power();
     abstract public function set_exe_power($val_exe_power);
 
+    //getter & setter angajati
+    abstract public function get_angajati();
+    abstract public function set_angajati($val_angajati);
+
+    //add & delete angajati
+    abstract public function add_angajat($val_angajat);
+    abstract public function delete_angajat($val_angajat);
+
 }
 
 class Director extends Superior{
     private $stakeholders;
 
-    function __construct($val_nume, $val_email, $val_telefon, $val_decisive_power, $val_exe_power, $val_stakeholders){
-        parent::__construct($val_nume, $val_email, $val_telefon, $val_decisive_power, $val_exe_power);
+    function __construct($val_nume, $val_email, $val_telefon, $val_decisive_power, $val_exe_power, $val_stakeholders, $val_angajati, $val_salariu){
+        parent::__construct($val_nume, $val_email, $val_telefon, $val_decisive_power, $val_exe_power, $val_angajati, $val_salariu);
         $this->stakeholders = $val_stakeholders;
     }
 
@@ -115,14 +130,49 @@ class Director extends Superior{
     {
         $this->stakeholders = $val_stakeholders;
     }
+
+    //getter & setter salariu
+    public function get_salariu()
+    {
+        return $this->salariu;
+    }
+    public function set_salariu($val_salariu)
+    {
+        $this->salariu = $val_salariu;
+    }
+
+    //getter & setter angajati
+    public function get_angajati()
+    {
+        return $this->angajati;
+    }
+    public function set_angajati($val_angajati)
+    {
+        $this->angajati = $val_angajati;
+    }
+
+    //add angajat
+    public function add_angajat($angajat){
+        array_push($this->angajati, $angajat);
+    }
+    //delete angajat
+    public function delete_angajat($angajat){
+        for($i=0; $i<count($this->angajati); $i++){
+            if($this->angajati[$i]->get_nume() == $angajat){
+                unset($this->angajati[$i]);
+            }
+        }
+        array_values($this->angajati);
+    }
+
 }
 
 class HR extends Angajat{
 
     private $angajati_recrutati;
 
-    function __construct($val_nume, $val_email, $val_telefon, $val_angajati_recrutati){
-        parent::__construct($val_nume, $val_email, $val_telefon);
+    function __construct($val_nume, $val_email, $val_telefon, $val_angajati_recrutati, $val_salariu){
+        parent::__construct($val_nume, $val_email, $val_telefon, $val_salariu);
         $this->angajati_recrutati = $val_angajati_recrutati;
     }
 
@@ -165,14 +215,24 @@ class HR extends Angajat{
     {
         $this->angajati_recrutati = $val_angajati_recrutati;
     }
+
+    //getter & setter salariu
+    public function get_salariu()
+    {
+        return $this->salariu;
+    }
+    public function set_salariu($val_salariu)
+    {
+        $this->salariu = $val_salariu;
+    }
 }
 
 class Programator extends Angajat{
 
     private $limbaj_programare;
 
-    function __construct($val_nume, $val_email, $val_telefon, $val_limbaj_programare){
-        parent::__construct($val_nume, $val_email, $val_telefon);
+    function __construct($val_nume, $val_email, $val_telefon, $val_limbaj_programare, $val_salariu){
+        parent::__construct($val_nume, $val_email, $val_telefon, $val_salariu);
         $this->limbaj_programare = $val_limbaj_programare;
     }
 
@@ -214,6 +274,16 @@ class Programator extends Angajat{
     public function set_limbaj_programare($val_limbaj_programare)
     {
         $this->limbaj_programare = $val_limbaj_programare;
+    }
+
+    //getter & setter salariu
+    public function get_salariu()
+    {
+        return $this->salariu;
+    }
+    public function set_salariu($val_salariu)
+    {
+        $this->salariu = $val_salariu;
     }
 }
 
@@ -268,15 +338,97 @@ class Manager extends Superior{
     {
         $this->telefon = $val_telefon;
     }
+
+    //getter & setter angajati
+    public function get_angajati()
+    {
+        return $this->angajati;
+    }
+    public function set_angajati($val_angajati)
+    {
+        $this->angajati = $val_angajati;
+    }
+
+    //getter & setter salariu
+    public function get_salariu()
+    {
+        return $this->salariu;
+    }
+    public function set_salariu($val_salariu)
+    {
+        $this->salariu = $val_salariu;
+    }
+
+    //add angajat
+    public function add_angajat($angajat){
+        array_push($this->angajati, $angajat);
+    }
+    //delete angajat
+    public function delete_angajat($angajat){
+        for($i=0; $i<count($this->angajati); $i++){
+            if($this->angajati[$i]->get_nume() == $angajat){
+                unset($this->angajati[$i]);
+            }
+        }
+        array_values($this->angajati);
+    }
 }
 
-$director = new Director("Andrei", "andrei@emag.ro", "0749481356", true, false, 30);
-$manager = new Manager("Lavinia", "lavinia@emag.ro", "0756481876", false,true);
-$programator = new Programator("Ion", "ion@emag.ro", "0785765432", "PHP");
-$recruter = new HR("Ioana", "ioana@emag.ro", "0784999345", 4);
+class Departamanet {
+    private $angajat;
+    private $departament;
 
-echo "Director: " . $director->get_nume() . "<br>";
-echo "Manager: " . $manager->get_nume() . "<br>";
-echo "Programator: " . $programator->get_nume() . "<br>";
-echo "HR: " . $recruter->get_nume() . "<br>";
+    public function __construct($val_angajat, $val_departament) {
+        $this->angajat = $val_angajat;
+        $this->departament = $val_departament;
+    }
 
+    //getter & setter angajat
+    public function get_angajat()
+    {
+        return $this->angajat;
+    }
+    public function set_angajat($val_angajat)
+    {
+        $this->angajat = $val_angajat;
+    }
+
+    //getter & setter departament
+    public function get_departament()
+    {
+        return $this->departament;
+    }
+    public function set_departament($val_departament)
+    {
+        $this->departament = $val_departament;
+    }
+
+    //add departament
+    public function add_departament($angajat, $val_departament){
+
+    }
+
+}
+
+$programator1 = new Programator("Ion", "ion@emag.ro", "0785765432", "PHP", 5000);
+$programator2 = new Programator("Cosmin", "cosmin@emag.ro", "0785765432", "PHP", 6600);
+$programator3 = new Programator("George", "george@emag.ro", "0785765432", "PHP", 11000);
+
+$recruter1 = new HR("Ioana", "ioana@emag.ro", "0784999345", 4, 4500);
+$recruter2 = new HR("Andreea", "andreea@emag.ro", "0784999345", 5, 5000);
+
+$director = new Director("Andrei", "andrei@emag.ro", "0749481356", true, false, 30, array($programator1, $programator2, $programator3), 25000);
+$manager = new Manager("Lavinia", "lavinia@emag.ro", "0756481876", false,true, array($recruter1, $recruter2), 7750);
+
+//$director->delete_angajat($programator3->get_nume());
+//$director->add_angajat($programator3);
+
+echo "Angajati sub directorul " . $director->get_nume() . " :<br>";
+foreach ($director->get_angajati() as $angajat){
+    echo $angajat->get_nume() . "<br>";
+}
+
+echo "Angajati sub managerul " . $manager->get_nume() . " :<br>";
+foreach ($manager->get_angajati() as $angajat){
+    echo $angajat->get_nume() . "<br>";
+}
