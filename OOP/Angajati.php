@@ -24,12 +24,11 @@ abstract class Angajat
     abstract public function get_telefon();
     abstract public function set_telefon($val_telefon);
 
-
 }
 
 abstract class Superior extends Angajat
 {
-    protected $angajati = array();
+    protected $angajati;
     protected $decisive_power = false;
     protected $exe_power = false;
 
