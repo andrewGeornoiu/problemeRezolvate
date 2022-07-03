@@ -252,6 +252,17 @@ class HR extends Angajat{
     {
         $this->departament = $val_departament;
     }
+
+    //5% raise
+    public function apply_raise($angajat, $dep){
+        foreach ($angajat as $emp) {
+            if ($emp->get_departament() == $dep){
+                $pay = $emp->get_salariu();
+                $pay = $pay + ($pay * (5 / 100));
+                $emp->set_salariu($pay);
+            }
+        }
+    }
 }
 
 class Programator extends Angajat{
@@ -441,20 +452,25 @@ class Departamanet {
 }
 
 $development = new Departamanet("Devs");
+$recrutare = new Departamanet("Recruters");
 
 $programator1 = new Programator("Ion", "ion@emag.ro", "0785765432", "PHP", 5000, $development->get_departament());
-$programator2 = new Programator("Cosmin", "cosmin@emag.ro", "0785765432", "PHP", 6600, "");
-$programator3 = new Programator("George", "george@emag.ro", "0785765432", "PHP", 11000, "");
+$programator2 = new Programator("Cosmin", "cosmin@emag.ro", "0785765432", "PHP", 6600, $development->get_departament());
+$programator3 = new Programator("George", "george@emag.ro", "0785765432", "PHP", 11000, $development->get_departament());
 
 
-$recruter1 = new HR("Ioana", "ioana@emag.ro", "0784999345", 4, 4500, "");
-$recruter2 = new HR("Andreea", "andreea@emag.ro", "0784999345", 5, 5000, "");
+$recruter1 = new HR("Ioana", "ioana@emag.ro", "0784999345", 4, 4500, $recrutare->get_departament());
+$recruter2 = new HR("Andreea", "andreea@emag.ro", "0784999345", 5, 5000, $recrutare->get_departament());
 
-$director = new Director("Andrei", "andrei@emag.ro", "0749481356", true, false, 30, array($programator1, $programator2, $programator3), 25000, "");
-$manager = new Manager("Lavinia", "lavinia@emag.ro", "0756481876", false,true, array($recruter1, $recruter2), 7750, "");
+$director = new Director("Andrei", "andrei@emag.ro", "0749481356", true, false, 30, array($programator1, $programator2, $programator3), 25000, $development->get_departament());
+$manager = new Manager("Lavinia", "lavinia@emag.ro", "0756481876", false,true, array($recruter1, $recruter2), 7750, $recrutare->get_departament());
 
-echo $programator1->get_departament();
+$recruter1->apply_raise(array($programator1, $programator2, $programator3, $recruter2), "Devs");
 
+echo $programator1->get_salariu() . "<br>";
+echo $programator2->get_salariu() . "<br>";
+echo $programator3->get_salariu() . "<br>";
+echo $recruter2->get_salariu() . "<br>";
 //$director->delete_angajat($programator3->get_nume());
 //$director->add_angajat($programator3);
 
