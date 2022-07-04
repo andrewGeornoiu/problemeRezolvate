@@ -10,11 +10,45 @@ abstract class Angajat
 
 
     public function __construct($val_nume, $val_email, $val_telefon, $val_salariu, $val_departament) {
-        $this->nume = $val_nume;
-        $this->email = $val_email;
-        $this->telefon = $val_telefon;
-        $this->salariu = $val_salariu;
-        $this->departament = $val_departament;
+
+        if (preg_match('~[0-9]+~', $val_nume)) {
+            echo "Numele invalid! (fara numere)";
+        }
+        elseif (str_word_count($val_nume) < 2){
+            echo "Numele invalid! (minim 2 cuvinte";
+        }
+        else{
+            $this->nume = $val_nume;
+        }
+
+        if(filter_var($val_email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = $val_email;
+        }
+        else {
+            echo "Email invalid";
+        }
+
+        if(preg_match('/(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|-)?([0-9]{3}(\s|\.|\-|)){2}$/', $val_telefon)) {
+            $this->telefon = $val_telefon;
+        }
+        else{
+            echo "Numar telefon invalid";
+        }
+
+        if (!preg_match('~[0-9]+~', $val_salariu)) {
+            echo "Salariu trebuie sa contina doar cifre";
+        }
+        else{
+            $this->salariu = $val_salariu;
+        }
+
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
+
     }
 
     //getter & setter nume
@@ -50,6 +84,7 @@ abstract class Superior extends Angajat
         $this->decisive_power = $val_decisive_power;
         $this->exe_power = $val_exe_power;
         $this->angajati = $val_angajati;
+
     }
 
     //getter & setter decisive power
@@ -105,7 +140,15 @@ class Director extends Superior{
     }
     public function set_nume($val_nume)
     {
-        $this->nume = $val_nume;
+        if (preg_match('~[0-9]+~', $val_nume)) {
+            echo "Numele invalid! (fara numere, minim 2 cuvinte)";
+        }
+        elseif (str_word_count($val_nume) < 2){
+            echo "Numele invalid! (minim 2 cuvinte)";
+        }
+        else{
+            $this->nume = $val_nume;
+        }
     }
 
     //getter & setter email
@@ -115,7 +158,12 @@ class Director extends Superior{
     }
     public function set_email($val_email)
     {
-        $this->email = $val_email;
+        if(filter_var($val_email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = $val_email;
+        }
+        else {
+            echo "Invalid email";
+        }
     }
 
     //getter & setter telefon
@@ -125,7 +173,12 @@ class Director extends Superior{
     }
     public function set_telefon($val_telefon)
     {
-        $this->telefon = $val_telefon;
+        if(preg_match('/(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|\-)?([0-9]{3}(\s|\.|\-|)){2}$/', $val_telefon)) {
+            $this->telefon = $val_telefon;
+        }
+        else{
+            echo "Numarul este invalid";
+        }
     }
 
     //getter & setter stakeholders
@@ -145,7 +198,12 @@ class Director extends Superior{
     }
     public function set_salariu($val_salariu)
     {
-        $this->salariu = $val_salariu;
+        if (!preg_match('~[0-9]+~', $val_salariu)) {
+            echo "Salariul poate contine doar cifre";
+        }
+        else{
+            $this->salariu = $val_salariu;
+        }
     }
 
     //getter & setter angajati
@@ -165,7 +223,12 @@ class Director extends Superior{
     }
     public function set_departament($val_departament)
     {
-        $this->departament = $val_departament;
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere!";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
     }
 
     //add angajat
@@ -200,7 +263,15 @@ class HR extends Angajat{
     }
     public function set_nume($val_nume)
     {
-        $this->nume = $val_nume;
+        if (preg_match('~[0-9]+~', $val_nume)) {
+            echo "Numele invalid! (fara numere, minim 2 cuvinte)";
+        }
+        elseif (str_word_count($val_nume) < 2){
+            echo "Numele invalid! (minim 2 cuvinte)";
+        }
+        else{
+            $this->nume = $val_nume;
+        }
     }
 
     //getter & setter email
@@ -210,7 +281,12 @@ class HR extends Angajat{
     }
     public function set_email($val_email)
     {
-        $this->email = $val_email;
+        if(filter_var($val_email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = $val_email;
+        }
+        else {
+            echo "Invalid email";
+        }
     }
 
     //getter & setter telefon
@@ -220,7 +296,12 @@ class HR extends Angajat{
     }
     public function set_telefon($val_telefon)
     {
-        $this->telefon = $val_telefon;
+        if(preg_match('/(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|\-)?([0-9]{3}(\s|\.|\-|)){2}$/', $val_telefon)) {
+            $this->telefon = $val_telefon;
+        }
+        else{
+            echo "Numarul este invalid";
+        }
     }
 
     //getter & setter angajati_recrutati
@@ -240,7 +321,12 @@ class HR extends Angajat{
     }
     public function set_salariu($val_salariu)
     {
-        $this->salariu = $val_salariu;
+        if (!preg_match('~[0-9]+~', $val_salariu)) {
+            echo "Salariul poate contine doar cifre";
+        }
+        else{
+            $this->salariu = $val_salariu;
+        }
     }
 
     //getter & setter departament
@@ -250,16 +336,26 @@ class HR extends Angajat{
     }
     public function set_departament($val_departament)
     {
-        $this->departament = $val_departament;
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere!";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
     }
 
     //5% raise
-    public function apply_raise($angajat, $dep){
-        foreach ($angajat as $emp) {
-            if ($emp->get_departament() == $dep){
-                $pay = $emp->get_salariu();
-                $pay = $pay + ($pay * (5 / 100));
-                $emp->set_salariu($pay);
+    public function apply_raise($angajat, $dep, $raise){
+        if(!is_numeric($raise) || $raise == 0 || $raise < 0 || $raise > 100){
+            echo "Format marire salariu invalid";
+        }
+        else{
+            foreach ($angajat as $emp) {
+                if ($emp->get_departament() == $dep){
+                    $pay = $emp->get_salariu();
+                    $pay = $pay + ($pay * ($raise / 100));
+                    $emp->set_salariu($pay);
+                }
             }
         }
     }
@@ -267,12 +363,12 @@ class HR extends Angajat{
 
 class Programator extends Angajat{
 
-    private $limbaj_programare;
-
-    function __construct($val_nume, $val_email, $val_telefon, $val_limbaj_programare, $val_salariu, $val_departament){
-        parent::__construct($val_nume, $val_email, $val_telefon, $val_salariu, $val_departament);
-        $this->limbaj_programare = $val_limbaj_programare;
-    }
+//    private $limbaj_programare;
+//
+//    function __construct($val_nume, $val_email, $val_telefon, $val_limbaj_programare, $val_salariu, $val_departament){
+//        parent::__construct($val_nume, $val_email, $val_telefon, $val_salariu, $val_departament);
+//        $this->limbaj_programare = $val_limbaj_programare;
+//    }
 
     //getter & setter nume
     public function get_nume()
@@ -281,7 +377,15 @@ class Programator extends Angajat{
     }
     public function set_nume($val_nume)
     {
-        $this->nume = $val_nume;
+        if (preg_match('~[0-9]+~', $val_nume)) {
+            echo "Numele invalid! (fara numere, minim 2 cuvinte)";
+        }
+        elseif (str_word_count($val_nume) < 2){
+            echo "Numele invalid! (minim 2 cuvinte)";
+        }
+        else{
+            $this->nume = $val_nume;
+        }
     }
 
     //getter & setter email
@@ -291,7 +395,12 @@ class Programator extends Angajat{
     }
     public function set_email($val_email)
     {
-        $this->email = $val_email;
+        if(filter_var($val_email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = $val_email;
+        }
+        else {
+            echo "Invalid email";
+        }
     }
 
     //getter & setter telefon
@@ -301,7 +410,12 @@ class Programator extends Angajat{
     }
     public function set_telefon($val_telefon)
     {
-        $this->telefon = $val_telefon;
+        if(preg_match('/(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|\-)?([0-9]{3}(\s|\.|\-|)){2}$/', $val_telefon)) {
+            $this->telefon = $val_telefon;
+        }
+        else{
+            echo "Numarul este invalid";
+        }
     }
 
     //getter & setter limbaj de programare
@@ -321,7 +435,12 @@ class Programator extends Angajat{
     }
     public function set_salariu($val_salariu)
     {
-        $this->salariu = $val_salariu;
+        if (!preg_match('~[0-9]+~', $val_salariu)) {
+            echo "Salariul poate contine doar cifre";
+        }
+        else{
+            $this->salariu = $val_salariu;
+        }
     }
 
     //getter & setter departament
@@ -331,7 +450,12 @@ class Programator extends Angajat{
     }
     public function set_departament($val_departament)
     {
-        $this->departament = $val_departament;
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere!";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
     }
 }
 
@@ -364,7 +488,15 @@ class Manager extends Superior{
     }
     public function set_nume($val_nume)
     {
-        $this->nume = $val_nume;
+        if (preg_match('~[0-9]+~', $val_nume)) {
+            echo "Numele invalid! (fara numere, minim 2 cuvinte)";
+        }
+        elseif (str_word_count($val_nume) < 2){
+            echo "Numele invalid! (minim 2 cuvinte)";
+        }
+        else{
+            $this->nume = $val_nume;
+        }
     }
 
     //getter & setter email
@@ -374,7 +506,12 @@ class Manager extends Superior{
     }
     public function set_email($val_email)
     {
-        $this->email = $val_email;
+        if(filter_var($val_email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = $val_email;
+        }
+        else {
+            echo "Invalid email";
+        }
     }
 
     //getter & setter telefon
@@ -384,7 +521,12 @@ class Manager extends Superior{
     }
     public function set_telefon($val_telefon)
     {
-        $this->telefon = $val_telefon;
+        if(preg_match('/(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|\-)?([0-9]{3}(\s|\.|\-|)){2}$/', $val_telefon)) {
+            $this->telefon = $val_telefon;
+        }
+        else{
+            echo "Numarul este invalid";
+        }
     }
 
     //getter & setter angajati
@@ -404,7 +546,12 @@ class Manager extends Superior{
     }
     public function set_salariu($val_salariu)
     {
-        $this->salariu = $val_salariu;
+        if (!preg_match('~[0-9]+~', $val_salariu)) {
+            echo "Salariul poate contine doar cifre";
+        }
+        else{
+            $this->salariu = $val_salariu;
+        }
     }
 
     //getter & setter departament
@@ -414,7 +561,12 @@ class Manager extends Superior{
     }
     public function set_departament($val_departament)
     {
-        $this->departament = $val_departament;
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere!";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
     }
 
     //add angajat
@@ -436,7 +588,12 @@ class Departamanet {
     private $departament;
 
     public function __construct($val_departament) {
-        $this->departament = $val_departament;
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere!";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
     }
 
     //getter & setter departament
@@ -446,35 +603,45 @@ class Departamanet {
     }
     public function set_departament($val_departament)
     {
-        $this->departament = $val_departament;
+        if (preg_match('~[0-9]+~', $val_departament)) {
+            echo "Numele departamentului nu poate contine numere!";
+        }
+        else{
+            $this->departament = $val_departament;
+        }
     }
 
 }
 
-$development = new Departamanet("Devs");
-$recrutare = new Departamanet("Recruters");
 
-$programator1 = new Programator("Ion", "ion@emag.ro", "0785765432", "PHP", 5000, $development->get_departament());
-$programator2 = new Programator("Cosmin", "cosmin@emag.ro", "0785765432", "PHP", 6600, $development->get_departament());
-$programator3 = new Programator("George", "george@emag.ro", "0785765432", "PHP", 11000, $development->get_departament());
+//$development = new Departamanet("Devs");
+//$recrutare = new Departamanet("Recruters");
+//
+//$programator1 = new Programator("Ion Calota", "ion@emag.ro", "0785765432", "PHP", 5000, $development->get_departament());
+//$programator2 = new Programator("Cosmin Ionescu", "cosmin@emag.ro", "0785765432", "PHP", 6600, $development->get_departament());
+//$programator3 = new Programator("George Georgescu", "george@emag.ro", "0785765432", "PHP", 11000, $development->get_departament());
+//
+//
+//$recruter1 = new HR("Ioana Anton", "ioana@emag.ro", "0784999345", 4, 4500, $recrutare->get_departament());
+//$recruter2 = new HR("Andreea Marin", "andreea@emag.ro", "0784999345", 5, 5000, $recrutare->get_departament());
+//
+//$director = new Director("Andrei Ioan", "andrei@emag.ro", "0749481356", true, false, 30, array($programator1, $programator2, $programator3), 25000, $development->get_departament());
+//$manager = new Manager("Lavinia Popescu", "lavinia@emag.ro", "0756481876", false,true, array($recruter1, $recruter2), 7750, $recrutare->get_departament());
+
+//$recruter1->apply_raise(array($programator1, $programator2, $programator3, $recruter2), "Devs", 5);
+//
+//echo $programator2->get_nume();
+//
+//echo $programator1->get_salariu() . "<br>";
+//echo $programator2->get_salariu() . "<br>";
+//echo $programator3->get_salariu() . "<br>";
+//echo $recruter2->get_salariu() . "<br>";
 
 
-$recruter1 = new HR("Ioana", "ioana@emag.ro", "0784999345", 4, 4500, $recrutare->get_departament());
-$recruter2 = new HR("Andreea", "andreea@emag.ro", "0784999345", 5, 5000, $recrutare->get_departament());
-
-$director = new Director("Andrei", "andrei@emag.ro", "0749481356", true, false, 30, array($programator1, $programator2, $programator3), 25000, $development->get_departament());
-$manager = new Manager("Lavinia", "lavinia@emag.ro", "0756481876", false,true, array($recruter1, $recruter2), 7750, $recrutare->get_departament());
-
-$recruter1->apply_raise(array($programator1, $programator2, $programator3, $recruter2), "Devs");
-
-echo $programator1->get_salariu() . "<br>";
-echo $programator2->get_salariu() . "<br>";
-echo $programator3->get_salariu() . "<br>";
-echo $recruter2->get_salariu() . "<br>";
 //$director->delete_angajat($programator3->get_nume());
 //$director->add_angajat($programator3);
-
-
+//
+//
 //echo "Angajati sub directorul " . $director->get_nume() . " :<br>";
 //foreach ($director->get_angajati() as $angajat){
 //    echo $angajat->get_nume() . "<br>";
