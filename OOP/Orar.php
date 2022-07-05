@@ -225,6 +225,7 @@ class StudentMaterie
         $this->orar = $val_orar;
     }
 
+
 }
 
 
@@ -236,19 +237,21 @@ $facultate = new Facultate("Facultatea de Psihologie", array($materie1, $materie
 
 $student1 = new Student( "George Popescu", $facultate);
 
-$luni = new Orar("Luni", "12:30", $facultate->getMaterii()[0]->getDenumire());
-$marti = new Orar("Marti", "13:30", $facultate->getMaterii()[1]->getDenumire());
-$miercuri = new Orar("Miercuri", "13:30", $facultate->getMaterii()[2]->getDenumire());
-$joi = new Orar("Joi", "12:30", $facultate->getMaterii()[0]->getDenumire());
-$vineri = new Orar("Vineri", "13:30", $facultate->getMaterii()[1]->getDenumire());
+$luni = new Orar("Luni", array("12:30", "15:30"), array($facultate->getMaterii()[0]->getDenumire(), $facultate->getMaterii()[2]->getDenumire()));
+$marti = new Orar("Marti", array("12:30", "14:30"), array($facultate->getMaterii()[1]->getDenumire(), $facultate->getMaterii()[2]->getDenumire()));
+//$miercuri = new Orar("Miercuri", "13:30", $facultate->getMaterii()[2]->getDenumire());
+//$joi = new Orar("Joi", "12:30", $facultate->getMaterii()[0]->getDenumire());
+//$vineri = new Orar("Vineri", "13:30", $facultate->getMaterii()[1]->getDenumire());
 
 
-$orarFinal = new StudentMaterie($student1, array($luni, $marti, $miercuri, $joi, $vineri));
+$orarFinal = new StudentMaterie($student1, array($luni, $marti));
 
-foreach ($orarFinal->getOrar() as $orar){
-    echo $orar->getZi() . "<br>";
-    echo $orar->getOra() . " - " . $orar->getMaterie() . "<br>";
-}
+echo $orarFinal->getOrar()[0]->getZi() . "<br>";
+echo $orarFinal->getOrar()[0]->getOra()[0] . " " . $orarFinal->getOrar()[0]->getMaterie()[0] . "<br>";
+echo $orarFinal->getOrar()[0]->getOra()[1] . " " . $orarFinal->getOrar()[0]->getMaterie()[1] . "<br>";
+echo $orarFinal->getOrar()[1]->getZi() . "<br>";
+echo $orarFinal->getOrar()[1]->getOra()[0] . " " . $orarFinal->getOrar()[1]->getMaterie()[0] . "<br>";
+echo $orarFinal->getOrar()[0]->getOra()[1] . " " . $orarFinal->getOrar()[0]->getMaterie()[1] . "<br>";
 
 
 //echo $orarFinal->getOrar()[1]->getZi();
