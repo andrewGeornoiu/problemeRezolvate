@@ -1,0 +1,9 @@
+PHP IMAGICK - https://www.php.net/manual/en/imagick.setimageformat.php
+
+IMAGICK CONVERT STACK - https://stackoverflow.com/questions/6610739/php-imagick-convert-png-to-jpg
+
+IMG CONVERT CLASS - https://github.com/rakibtg/PHP-ImageToWebp
+
+IMG CONVERT CLASS 2 - https://github.com/free-open-source/php-image-converter
+
+TUTORIAL IMG CONVERT - https://www.devopsschool.com/blog/image-convert-to-jpg-png-gif-using-php/

@@ -1,56 +1,59 @@
 <?php
 
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+if (isset($_POST['upload'])){
 
-$error = '';
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-    if(empty($_FILES["fileToUpload"]["tmp_name"])){
-        echo "Cannot be empty";
-        header("Location: index.php");
-    }else{
-        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        if($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".<br>";
-            $uploadOk = 1;
-        } else {
-            $error = "File is not an image.";
-            $uploadOk = 0;
+    $img = $_FILES['imgToUpload'];
+
+    $imgName = $_FILES['imgToUpload']['name'];
+    $imgTmpName = $_FILES['imgToUpload']['tmp_name'];
+    $imgSize = $_FILES['imgToUpload']['size'];
+    $imgError = $_FILES['imgToUpload']['error'];
+    $imgType = $_FILES['imgToUpload']['type'];
+
+
+    $allowed_image_extension = array(
+            "png",
+            "jpg",
+            "jpeg"
+    );
+
+    // Count # of uploaded files in array
+    $total = count($_FILES['imgToUpload']['name']);
+    // Loop through each file
+    for ($i = 0; $i < $total; $i++) {
+
+        // Get image file extension
+        $file_extension = pathinfo($_FILES["imgToUpload"]["name"][$i], PATHINFO_EXTENSION);
+
+        if (!file_exists($_FILES['imgToUpload']['tmp_name'][$i])) {
+            header("Location: index.php?upload=empty");
+            exit();
+        }
+        if (!in_array($file_extension, $allowed_image_extension)) {
+            header("Location: index.php?upload=typeErr");
+            exit();
+        }
+
+        if (($_FILES["imgToUpload"]["size"][$i] > 20000000)) {
+            header("Location: index.php?upload=sizeErr");
+            exit();
+        }else{
+            //Get the temp file path
+            $tmpFilePath = $_FILES['imgToUpload']['tmp_name'][$i];
+            //Make sure we have a file path
+
+            if ($tmpFilePath != "") {
+                //Setup our new file path
+                $newFilePath = "./uploads/" . $_FILES['imgToUpload']['name'][$i];
+                //Upload the file into the temp dir
+                move_uploaded_file($tmpFilePath, $newFilePath);
+                header("Location: index.php?upload=success");
+            }else{
+                header("Location: index.php?upload=err");
+                exit();
+            }
         }
     }
+
 }
 
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists. <br>";
-    $uploadOk = 0;
-}
-
-// Check file size
-//if ($_FILES["fileToUpload"]["size"] > 500000) {
-//    echo "Sorry, your file is too large.";
-//    $uploadOk = 0;
-//}
-
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.<br>";
-    $uploadOk = 0;
-}
-
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.<br>";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br>";
-    } else {
-        echo "Sorry, there was an error uploading your file.<br>";
-
-    }
-}
