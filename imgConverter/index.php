@@ -1,8 +1,15 @@
 <?php
+ob_start();
+
+$URI = $_SERVER['REQUEST_URI'];
+
+if(!empty($_POST)){
+    //magic
+    header("location:$URI");
+}
 
 $err = [];
 $success = '';
-$goodFile = false;
 
 if(!isset($_GET['upload'])){
     exit();
@@ -10,28 +17,21 @@ if(!isset($_GET['upload'])){
     $uploadCheck = $_GET['upload'];
 
     if ($uploadCheck == "empty"){
-        $goodFile = false;
         $err[] ='Upload cannot be empty!';
     }
     if ($uploadCheck == "err"){
-        $goodFile = false;
         $err[] ='There was a problem with your file';
     }
     if ($uploadCheck == "typeErr"){
-        $goodFile = false;
         $err[] ='Only jpg, jpeg, png and gif file are accepted';
     }
     if ($uploadCheck == "sizeErr"){
-        $goodFile = false;
         $err[] ='Image size too big';
     }
 
     if ($uploadCheck == "success"){
-        $goodFile = true;
         $success ='Image uploaded';
     }
-
-
 
 }
 
@@ -50,7 +50,7 @@ if(!isset($_GET['upload'])){
         <form action="upload.php" method="post" class="col-6 mt-5" enctype="multipart/form-data">
             <span class="text-danger">
             <?php
-            if($goodFile === false){
+            if($uploadCheck !== "success"){
                 foreach ($err as $errors){
                     echo $errors . "<br>";
                 }
@@ -58,30 +58,30 @@ if(!isset($_GET['upload'])){
             ?>
             </span>
 
-            <span class="text-success">
+            <span class="text-success fw-bold">
                 <?php
+                if($uploadCheck == "success"){
                     // This will return all files in that folder
-                    $files = scandir("uploads");
+                    $files = scandir("converted");
                     // If you are using windows, first 2 indexes are "." and "..",
                     for ($a = 2; $a < count($files); $a++){
                         ?>
                         <p>
                             <!-- Displaying file name !-->
                             <?php echo $files[$a]; ?>
-
                             <!-- href should be complete file path !-->
                             <!-- download attribute should be the name after it downloads !-->
-                                 <a href="uploads/<?php echo $files[$a]; ?>" download="<?php echo $files[$a]; ?>"> Download</a>
+                                 <a href="converted/<?php echo $files[$a]; ?>" download="<?php echo $files[$a]; ?>"> Download</a>
                         </p>
                         <?php
                     }
+                }
                 ?>
             </span>
 
             Select image to upload:
             <input type="file" name="imgToUpload[]" class="form-control mb-3" id="fileToUpload" multiple="multiple">
-            <input type="submit" class="btn btn-dark" value="Upload Image" name="upload">
-            <input type="submit" class="btn btn-success" value="Download Image" name="download">
+            <input type="submit" class="btn btn-dark" value="Upload & Convert" name="upload">
 
 
         </form>

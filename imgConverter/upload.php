@@ -1,4 +1,6 @@
 <?php
+include_once 'functions.php';
+
 
 if (isset($_POST['upload'])){
 
@@ -10,6 +12,7 @@ if (isset($_POST['upload'])){
     $imgError = $_FILES['imgToUpload']['error'];
     $imgType = $_FILES['imgToUpload']['type'];
 
+    $conv = 0;
 
     $allowed_image_extension = array(
             "png",
@@ -21,7 +24,6 @@ if (isset($_POST['upload'])){
     $total = count($_FILES['imgToUpload']['name']);
     // Loop through each file
     for ($i = 0; $i < $total; $i++) {
-
         // Get image file extension
         $file_extension = pathinfo($_FILES["imgToUpload"]["name"][$i], PATHINFO_EXTENSION);
 
@@ -40,17 +42,23 @@ if (isset($_POST['upload'])){
         }else{
             //Get the temp file path
             $tmpFilePath = $_FILES['imgToUpload']['tmp_name'][$i];
-            //Make sure we have a file path
 
+            //Make sure we have a file path
             if ($tmpFilePath != "") {
-                //Setup our new file path
+                $conv = 1;
+                //Setup new file path
                 $newFilePath = "./uploads/" . $_FILES['imgToUpload']['name'][$i];
                 //Upload the file into the temp dir
                 move_uploaded_file($tmpFilePath, $newFilePath);
-                header("Location: index.php?upload=success");
             }else{
                 header("Location: index.php?upload=err");
                 exit();
+            }
+
+            if($conv === 1){
+                $newFileConvPath = "./converted/" . "conv_" . $_FILES['imgToUpload']['name'][$i];
+                rename($newFilePath, $newFileConvPath);
+                header("Location: index.php?upload=success");
             }
         }
     }
