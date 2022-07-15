@@ -1,6 +1,6 @@
 <?php
-include_once 'functions.php';
 
+require "ImageToWebp.php";
 
 if (isset($_POST['upload'])){
 
@@ -39,28 +39,28 @@ if (isset($_POST['upload'])){
         if (($_FILES["imgToUpload"]["size"][$i] > 20000000)) {
             header("Location: index.php?upload=sizeErr");
             exit();
-        }else{
-            //Get the temp file path
-            $tmpFilePath = $_FILES['imgToUpload']['tmp_name'][$i];
-
-            //Make sure we have a file path
-            if ($tmpFilePath != "") {
-                $conv = 1;
-                //Setup new file path
-                $newFilePath = "./uploads/" . $_FILES['imgToUpload']['name'][$i];
-                //Upload the file into the temp dir
-                move_uploaded_file($tmpFilePath, $newFilePath);
-            }else{
-                header("Location: index.php?upload=err");
-                exit();
-            }
-
-            if($conv === 1){
-                $newFileConvPath = "./converted/" . "conv_" . $_FILES['imgToUpload']['name'][$i];
-                rename($newFilePath, $newFileConvPath);
-                header("Location: index.php?upload=success");
-            }
         }
+        //Get the temp file path
+        $tmpFilePath = $_FILES['imgToUpload']['tmp_name'][$i];
+
+        //Make sure we have a file path
+        if ($tmpFilePath == "") {
+            header("Location: index.php?upload=err");
+            exit();
+        }
+
+//       $conv = 1;
+        //Setup new file path
+        $newFilePath = "./uploads/" . $_FILES['imgToUpload']['name'][$i];
+        move_uploaded_file($tmpFilePath, $newFilePath);
+
+        if($conv === 1){
+            //Upload the file into the temp dir
+            $newFileConvPath = "./converted/" . "conv_" . $_FILES['imgToUpload']['name'][$i];
+            rename($newFilePath, $newFileConvPath);
+            header("Location: index.php?upload=success");
+        }
+
     }
 
 }
