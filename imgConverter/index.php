@@ -47,7 +47,8 @@ if(!isset($_GET['upload'])){
 
 <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
 
-        <form action="upload.php" method="post" class="col-6 mt-5" enctype="multipart/form-data">
+        <form action=<?php if($uploadCheck !== "success"){
+            echo "upload.php";} else{echo "convert.php";}?> method="post" class="col-6 mt-5" enctype="multipart/form-data">
             <span class="text-danger">
             <?php
             if($uploadCheck !== "success"){
@@ -61,8 +62,10 @@ if(!isset($_GET['upload'])){
             <span class="text-success fw-bold">
                 <?php
                 if($uploadCheck == "success"){
+
                     // This will return all files in that folder
                     $files = scandir("converted");
+
                     // If you are using windows, first 2 indexes are "." and "..",
                     for ($a = 2; $a < count($files); $a++){
                         ?>
@@ -81,7 +84,8 @@ if(!isset($_GET['upload'])){
 
             Select image to upload:
             <input type="file" name="imgToUpload[]" class="form-control mb-3" id="fileToUpload" multiple="multiple">
-            <input type="submit" class="btn btn-dark" value="Upload & Convert" name="upload">
+            <input type="submit" class="btn btn-dark" value=<?php if($uploadCheck == "success"){
+                echo "Convert";} else{echo "Upload";}?> name="upload">
 
 
         </form>
@@ -92,6 +96,8 @@ if(!isset($_GET['upload'])){
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
+
 
 </body>
 
