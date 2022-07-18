@@ -1,5 +1,6 @@
 <?php
 ob_start();
+error_reporting(E_ERROR | E_PARSE);
 
 $URI = $_SERVER['REQUEST_URI'];
 
@@ -15,6 +16,7 @@ if(!isset($_GET['upload'])){
     exit();
 }else{
     $uploadCheck = $_GET['upload'];
+    $convertCheck = $_GET['convert'];
 
     if ($uploadCheck == "empty"){
         $err[] ='Upload cannot be empty!';
@@ -23,14 +25,17 @@ if(!isset($_GET['upload'])){
         $err[] ='There was a problem with your file';
     }
     if ($uploadCheck == "typeErr"){
-        $err[] ='Only jpg, jpeg, png and gif file are accepted';
+        $err[] ='Only webp and avif files are accepted';
     }
     if ($uploadCheck == "sizeErr"){
         $err[] ='Image size too big';
     }
-
     if ($uploadCheck == "success"){
         $success ='Image uploaded';
+    }
+    if ($convertCheck == "ok"){
+        $sec=120;
+        header("Refresh:$sec; url=index.php?upload");
     }
 
 }
@@ -39,7 +44,8 @@ if(!isset($_GET['upload'])){
 
 <html lang="">
 <head>
-    <title>First page</title>
+
+    <title>WEBP & AVIF CONVERTER</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
@@ -62,7 +68,6 @@ if(!isset($_GET['upload'])){
             <span class="text-success fw-bold">
                 <?php
                 if($uploadCheck == "success"){
-
                     // This will return all files in that folder
                     $files = scandir("converted");
 

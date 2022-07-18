@@ -12,9 +12,8 @@ if (isset($_POST['upload'])){
 
     $allowed_image_extension = array(
         "png",
-        "jpg",
-        "jpeg",
-        "webp"
+        "webp",
+        "avif"
     );
 
     // Count # of uploaded files in array
