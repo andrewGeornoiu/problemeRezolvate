@@ -1,0 +1,47 @@
+tips and tricks interview
+
+la prima intrebare spunem tot ce am facut legat de programare -> upgrade, alte cursuri (cantitatea este importanta)
+mentionam orice relevant pentru abilitatile tehnice
+
+
+PHP - este partial case sensitive 
+case sensitive, cand vine vorba de stringuri, variabile, object proprieties si constante
+
+bucati care nu sunt case sensistive - keywords, functii, metode si numele claselor
+
+
+8 tipuri de date
+
+NULL - tot un tip de date
+Resursa/Resources - tine o referinta la ceva extern in PHP
+Doubles - numere rationale
+
+Ce stii despre NULL?
+Null este un tip special de date care are o singura valoare.
+NULL - nu este case sensitive (NULL = null)
+
+
+
+constante in PHP - mai cautam 
+do while -> loop-ul se executa cel putin odata --> conditia este la sfarsit
+
+for 
+1. initializare contor
+2. conditia de continuare
+3. incrementarea
+
+
+clasa -> matrita pentru obiecte
+o clasa -> mai multe obiecte
+
+
+Encapsulation --> un principiu de POO, nu expunem public
+atribute private si metode acces care sunt publice
+
+
+
+
+
+
+
+

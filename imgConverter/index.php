@@ -2,6 +2,18 @@
 ob_start();
 error_reporting(E_ERROR | E_PARSE);
 
+/** define the directory **/
+$dir = "converted/";
+/*** cycle through all files in the directory ***/
+foreach (glob($dir."*") as $file) {
+    /*** if file is 24 hours (86400 seconds) old then delete it ***/
+    if(time() - filectime($file) > 120){
+        unlink($file);
+        header("Location: index.php?upload");
+        exit();
+    }
+}
+
 $URI = $_SERVER['REQUEST_URI'];
 
 if(!empty($_POST)){
@@ -9,10 +21,11 @@ if(!empty($_POST)){
     header("location:$URI");
 }
 
+
 $err = [];
 $success = '';
 
-if(!isset($_GET['upload'])){
+if(!isset($_GET['upload']) ){
     exit();
 }else{
     $uploadCheck = $_GET['upload'];
@@ -25,7 +38,7 @@ if(!isset($_GET['upload'])){
         $err[] ='There was a problem with your file';
     }
     if ($uploadCheck == "typeErr"){
-        $err[] ='Only webp and avif files are accepted';
+        $err[] ='Only webp, jfif and avif files are accepted';
     }
     if ($uploadCheck == "sizeErr"){
         $err[] ='Image size too big';
@@ -34,10 +47,9 @@ if(!isset($_GET['upload'])){
         $success ='Image uploaded';
     }
     if ($convertCheck == "ok"){
-        $sec=120;
+        $sec=60;
         header("Refresh:$sec; url=index.php?upload");
     }
-
 }
 
 ?>
@@ -81,9 +93,14 @@ if(!isset($_GET['upload'])){
                             <!-- download attribute should be the name after it downloads !-->
                                  <a href="converted/<?php echo $files[$a]; ?>" download="<?php echo $files[$a]; ?>"> Download</a>
                         </p>
+
                         <?php
                     }
+
+
                 }
+
+
                 ?>
             </span>
 
@@ -92,8 +109,16 @@ if(!isset($_GET['upload'])){
             <input type="submit" class="btn btn-dark" value=<?php if($uploadCheck == "success"){
                 echo "Convert";} else{echo "Upload";}?> name="upload">
 
-
+            <a href="zip.php" class="fw-bold">
+                <?php
+                if($_GET['convert'] == 'ok'){
+                    echo 'Download all';
+                }
+                ?>
+            </a>
         </form>
+
+
 
 
 </div>

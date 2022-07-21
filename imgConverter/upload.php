@@ -11,7 +11,7 @@ if (isset($_POST['upload'])){
     $imgType = $_FILES['imgToUpload']['type'];
 
     $allowed_image_extension = array(
-        "png",
+        "jfif",
         "webp",
         "avif"
     );
