@@ -10,13 +10,15 @@ class Produs
     private $imagine;
     private $stoc_disponibil;
 
-    public function __construct($nume, $descriere, $sku, $pret, $imagine)
+    public function __construct($id,$nume, $descriere, $sku, $pret, $imagine, $stoc_disponibil)
     {
+        $this->id = $id;
         $this->nume = $nume;
         $this->descriere = $descriere;
         $this->sku = $sku;
         $this->pret = $pret;
         $this->imagine = $imagine;
+        $this->stoc_disponibil = $stoc_disponibil;
     }
 
     /**

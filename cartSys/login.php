@@ -1,9 +1,11 @@
 <?php
+session_start();
 include 'db_connect.php';
 
 $conn = OpenCon();
 
 $err_empty = $err_email = $err_email_empty = $err_email_not_found = $err_final = $err_parola = "";
+
 
 if (isset($_POST['login'])){
 
@@ -38,11 +40,12 @@ if (isset($_POST['login'])){
 
         if(mysqli_num_rows($result) > 0)
         {
+            $_SESSION['username'] = $email;
             header("location:index.php");
         }
         else
         {
-            $err_final = "Email sau parola gresite, incercati din nou";
+            $err_final = "Email sau parola gresita, incercati din nou";
         }
     }
 
@@ -56,11 +59,12 @@ CloseCon($conn);
 <head>
     <title>Client</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
 
-<?php include 'includes/navbar.html'; ?>
+<?php include 'includes/navbar.php'; ?>
 
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="col-7 mx-auto mt-4">
 
@@ -86,7 +90,7 @@ CloseCon($conn);
     <button type="submit" name="login" class="btn btn-primary">Login</button>
     </form>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js" integrity="sha512-8pHNiqTlsrRjVD4A/3va++W1sMbUHwWxxRPWNyVlql3T+Hgfd81Qc6FC5WMXDC+tSauxxzp1tgiAvSKFu1qIlA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 
