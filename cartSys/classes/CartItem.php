@@ -2,12 +2,12 @@
 
 class CartItem {
     private $produs;
-    private $stoc_disponibil;
+    private $cantiate;
 
-    public function __construct($produs, $stoc_disponibil)
+    public function __construct($produs, $cantiate)
     {
         $this->produs = $produs;
-        $this->stoc_disponibil = $stoc_disponibil;
+        $this->cantiate = $cantiate;
     }
 
     public function getProdus()
@@ -20,21 +20,21 @@ class CartItem {
         $this->produs = $produs;
     }
 
-    public function getStoc()
+    public function getCantitate()
     {
-        return $this->stoc_disponibil;
+        return $this->cantiate;
     }
 
-    public function setStoc($stoc_disponibil)
+    public function setCantitate($cantiate)
     {
-        $this->stoc_disponibil = $stoc_disponibil;
+        $this->cantiate = $cantiate;
     }
 
     function increaseCantitate($bucati = 1){
-        $this->stoc_disponibil += $bucati;
+        $this->cantiate += $bucati;
     }
     function decreaseCantiate($bucati = 1){
-        $this->stoc_disponibil -= $bucati;
+        $this->cantiate -= $bucati;
     }
 
 }
