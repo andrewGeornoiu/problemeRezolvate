@@ -40,7 +40,9 @@ while ($row = mysqli_fetch_array($res_q)) {
 //get cart info
 $cart_sql = "SELECT id FROM cart WHERE user_id = '$id_user'";
 $res_cart_sql = mysqli_query($conn, $cart_sql);
-$cart_id = mysqli_fetch_array($res_cart_sql);
+while ($row = mysqli_fetch_array($res_cart_sql)) {
+    $cart_id = $row['id'];
+}
 
 if(empty($cart_id)){
     $cart_id = rand(10,100);
@@ -48,10 +50,10 @@ if(empty($cart_id)){
 }
 
 if (isset($_POST['addToCart'])){
-
     $cartItem = new CartItem($produs, 1);
     
     $cantitate = $cartItem->getCantitate();
+
     $id_produs = $_GET['id'];
 
     $stmt = $conn->prepare("INSERT INTO cart_item (cart_id, product_id, cantitate) VALUES (?, ?, ?)");
@@ -59,13 +61,13 @@ if (isset($_POST['addToCart'])){
     $stmt->execute();
 }
 
+
 function create_cart($id, $user_id, $conn){
     $cart = new Cart ($id, $user_id);
     $stmt = $conn->prepare("INSERT INTO cart (id, user_id) VALUES (?, ?)");
     $stmt->bind_param("ii", $id, $user_id);
     $stmt->execute();
 }
-
 
 CloseCon($conn);
 
@@ -96,7 +98,7 @@ CloseCon($conn);
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <form class="row" method="post">
+                    <form class="row" method="post" action="produs.php?id=<?php echo $produs->getId();?>&produsAdd">
                                 <div class="col-md-6">
                                             <div class="images p-3">
                                                 <div class="text-center p-4"><img width="350" src="data:image/jpeg;base64,<?php echo base64_encode($produs->getImagine()); ?>" />
