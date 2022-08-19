@@ -10,7 +10,7 @@ class Produs
     private $imagine;
     private $stoc_disponibil;
 
-    public function __construct($id,$nume, $descriere, $sku, $pret, $imagine, $stoc_disponibil)
+    public function __construct($id, $nume, $descriere, $sku, $pret, $imagine, $stoc_disponibil)
     {
         $this->id = $id;
         $this->nume = $nume;

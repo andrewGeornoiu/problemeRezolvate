@@ -1,3 +1,11 @@
+<?php
+// $conn = OpenCon();
+// $query = "SELECT cantitate FROM cart_item";
+// $result = mysqli_query($conn, $query);
+// CloseCon($conn);
+?>
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <!-- Container wrapper -->
   <div class="container-fluid">
